@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
-import { reduxForm, Field } from 'redux-form';
+import {Field, reduxForm} from 'redux-form';
+import {connect} from "react-redux";
+import * as actions from '../../actions';
+import {compose} from "redux";
 
 class Signup extends Component {
+    onSubmit = formProps => {
+        this.props.signup(formProps);
+    };
+
     render() {
+        const { handleSubmit } = this.props;
+
         return (
-            <form action="">
+            <form onSubmit={handleSubmit(this.onSubmit)}>
                 <fieldset>
                     <label>Email</label>
                     <Field
-                    name="email"
-                    type="text"
-                    component="input"
-                    autoComplete="none"
+                        name="email"
+                        type="text"
+                        component="input"
+                        autoComplete="none"
                     />
                 </fieldset>
                 <fieldset>
@@ -23,9 +32,13 @@ class Signup extends Component {
                         autoComplete="none"
                     />
                 </fieldset>
+                <button>Sign Up!</button>
             </form>
         )
     }
 }
 
-export default reduxForm({ form: 'signup' })(Signup);
+export default compose(
+    connect(null, actions),
+    reduxForm({ form: 'signup' })
+)(Signup);
