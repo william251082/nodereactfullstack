@@ -5,11 +5,14 @@ import {BrowserRouter, Route} from "react-router-dom";
 import Welcome from "./components/Welcome";
 import Signup from "./components/auth/Signup";
 import {Provider} from "react-redux";
-import {createStore} from "redux";
+import {applyMiddleware, createStore} from "redux";
 import reducers from './reducers'
+import reduxThunk from 'redux-thunk';
+
+const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
-    <Provider store={createStore(reducers, {})}>
+    <Provider store={store}>
         <BrowserRouter>
             <App>
                 <Route path="/" exact component={Welcome}/>
